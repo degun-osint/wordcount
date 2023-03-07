@@ -55,3 +55,10 @@ quels
 quelles
 dont
 comme
+son
+ses
+sa
+ton
+ta
+sien
+mien
