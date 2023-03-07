@@ -2,38 +2,38 @@ import csv
 import string
 import sys
 
-# Récupérer le nom du fichier source depuis la ligne de commande
+# get the name from CLI argument
 if len(sys.argv) != 2:
-    print("Veuillez fournir le nom du fichier source en argument.")
+    print("please enter the text file path")
     sys.exit(1)
 filename = sys.argv[1]
 
-# Ouvrir le fichier texte en mode lecture
+# open exclude list
 with open(filename, 'r') as f:
-    # Lire la liste des mots à exclure depuis le fichier exclude.txt
+    # read exclude list
     with open('exclude.txt', 'r') as ex:
         exclude_words = set(ex.read().split())
-    # Créer un dictionnaire vide pour stocker les comptes de mots
+    # create an empty dictionnary
     word_counts = {}
-    # Parcourir chaque ligne du fichier
+    # read every line of the file
     for line in f:
-        # Supprimer la ponctuation et les apostrophes de la ligne
+        # delete punctuation and apostrophes
         line = line.translate(str.maketrans('', '', string.punctuation + "'"))
-        # Séparer la ligne en mots en utilisant l'espace comme séparateur
+        # separate line in words
         words = line.strip().split()
-        # Parcourir chaque mot et incrémenter son compteur dans le dictionnaire
+        # count each word, add them or increment the counter
         for word in words:
             if word not in exclude_words:
                 if word in word_counts:
                     word_counts[word] += 1
                 else:
                     word_counts[word] = 1
-# Ouvrir le fichier CSV en mode écriture
+# Open CSV file
 with open('resultats.csv', 'w', newline='') as f:
-    # Créer un objet writer pour écrire dans le fichier CSV
+    # Create an object to fill the CSV file
     writer = csv.writer(f)
-    # Écrire l'en-tête du fichier CSV
-    writer.writerow(['mot', 'nombre d\'occurence'])
-    # Parcourir le dictionnaire de comptage de mots et écrire chaque entrée dans le fichier CSV
+    # write headers
+    writer.writerow(['word', 'occurence'])
+    # add the dictionnay to csv
     for word, count in word_counts.items():
         writer.writerow([word, count])
